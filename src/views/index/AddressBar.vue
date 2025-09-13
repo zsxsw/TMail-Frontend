@@ -83,6 +83,38 @@ const onUserLogin = async () => {
     await router.push(getRouterPathWithLang("/user", locale.value))
 }
 
+// 弹窗样式配置
+const modalStyle = {
+    width: '90%',
+    maxWidth: '600px',
+    minWidth: '320px',
+}
+
+const modalContentStyle = {
+    maxHeight: '80vh',
+    overflow: 'auto',
+}
+
+const modalHeaderStyle = {
+    padding: '16px 24px',
+}
+
+const credentialModalStyle = {
+    width: '90%',
+    maxWidth: '500px',
+    minWidth: '320px',
+}
+
+const credentialModalContentStyle = {
+    background: 'rgba(255, 255, 255, 0.95)',
+    backdropFilter: 'blur(20px)',
+    borderRadius: '16px',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)',
+    maxHeight: '70vh',
+    overflow: 'hidden',
+}
+
 onMounted(async () => {
     await api.getSettings();
 });
@@ -133,31 +165,84 @@ onMounted(async () => {
                 </n-button>
             </n-card>
         </div>
-        <n-modal v-model:show="showTelegramChangeAddress" preset="card" :title="t('changeAddress')">
-            <TelegramAddress />
+        <!-- Telegram地址更换弹窗 -->
+        <n-modal 
+            v-model:show="showTelegramChangeAddress" 
+            preset="card" 
+            :title="t('changeAddress')"
+            class="address-modal"
+            :style="modalStyle"
+            :content-style="modalContentStyle"
+            :header-style="modalHeaderStyle"
+            transform-origin="center"
+        >
+            <div class="modal-content-wrapper">
+                <TelegramAddress />
+            </div>
         </n-modal>
-        <n-modal v-model:show="showChangeAddress" preset="card" :title="t('changeAddress')">
-            <AddressManagement />
+
+        <!-- 地址管理弹窗 -->
+        <n-modal 
+            v-model:show="showChangeAddress" 
+            preset="card" 
+            :title="t('changeAddress')"
+            class="address-modal"
+            :style="modalStyle"
+            :content-style="modalContentStyle"
+            :header-style="modalHeaderStyle"
+            transform-origin="center"
+        >
+            <div class="modal-content-wrapper">
+                <AddressManagement />
+            </div>
         </n-modal>
-        <n-modal v-model:show="showLocalAddress" preset="card" :title="t('changeAddress')">
-            <LocalAddress />
+
+        <!-- 本地地址弹窗 -->
+        <n-modal 
+            v-model:show="showLocalAddress" 
+            preset="card" 
+            :title="t('changeAddress')"
+            class="address-modal"
+            :style="modalStyle"
+            :content-style="modalContentStyle"
+            :header-style="modalHeaderStyle"
+            transform-origin="center"
+        >
+            <div class="modal-content-wrapper">
+                <LocalAddress />
+            </div>
         </n-modal>
-        <n-modal v-model:show="showAddressCredential" preset="dialog" :title="t('addressCredential')">
-            <span>
-                <p>{{ t("addressCredentialTip") }}</p>
-            </span>
-            <n-card embedded>
-                <b>{{ jwt }}</b>
-            </n-card>
-            <n-card embedded>
-                <n-collapse>
-                    <n-collapse-item :title='t("linkWithAddressCredential")'>
-                        <n-card embedded>
-                            <b>{{ getUrlWithJwt() }}</b>
-                        </n-card>
-                    </n-collapse-item>
-                </n-collapse>
-            </n-card>
+
+        <!-- 地址凭证弹窗 -->
+        <n-modal 
+            v-model:show="showAddressCredential" 
+            preset="dialog" 
+            :title="t('addressCredential')"
+            class="credential-modal"
+            :style="credentialModalStyle"
+            :content-style="credentialModalContentStyle"
+            :header-style="modalHeaderStyle"
+            transform-origin="center"
+        >
+            <div class="credential-content">
+                <p class="credential-tip">{{ t("addressCredentialTip") }}</p>
+                
+                <div class="credential-card">
+                    <div class="credential-label">JWT Token:</div>
+                    <div class="credential-value">{{ jwt }}</div>
+                </div>
+                
+                <div class="credential-card">
+                    <n-collapse class="credential-collapse">
+                        <n-collapse-item :title='t("linkWithAddressCredential")' class="collapse-item">
+                            <div class="credential-link">
+                                <div class="credential-label">Auto Login Link:</div>
+                                <div class="credential-value link-value">{{ getUrlWithJwt() }}</div>
+                            </div>
+                        </n-collapse-item>
+                    </n-collapse>
+                </div>
+            </div>
         </n-modal>
     </div>
 </template>
