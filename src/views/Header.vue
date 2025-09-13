@@ -51,7 +51,7 @@ const changeLocale = async (lang) => {
 const { locale, t } = useI18n({
     messages: {
         en: {
-            title: 'Cloudflare Temp Email',
+            title: 'LiuShen TMail',
             dark: 'Dark',
             light: 'Light',
             accessHeader: 'Access Password',
@@ -62,7 +62,7 @@ const { locale, t } = useI18n({
             ok: 'OK',
         },
         zh: {
-            title: 'Cloudflare 临时邮件',
+            title: 'LiuShen TMail',
             dark: '暗色',
             light: '亮色',
             accessHeader: '访问密码',
